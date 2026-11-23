@@ -3,10 +3,17 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
+import NovaRequisicao from './NovaRequisicao.jsx'
+import ListaRequisicoes from './ListaRequisicoes.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
   const [secao, setSecao] = useState(() => window.location.hash || '#materiais')
+    const [versaoLista, setVersaoLista] = useState(0)
+
+  function atualizarLista() {
+    setVersaoLista((versao) => versao + 1)
+  }
 
   useEffect(() => {
     function atualizarSecao() {
@@ -34,7 +41,13 @@ function App() {
           </nav>
           {secao === '#materiais' && <h2>Materiais</h2>}
           {secao === '#colaboradores' && <h2>Colaboradores</h2>}
-          {secao === '#requisicoes' && <h2>Requisições</h2>}
+          {secao === '#requisicoes' && (
+            <section className="area-requisicoes">
+              <h2>Requisições</h2>
+              <NovaRequisicao aoCriar={atualizarLista} />
+              <ListaRequisicoes versaoLista={versaoLista} />
+            </section>
+          )}
           <p>
             Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
           </p>
