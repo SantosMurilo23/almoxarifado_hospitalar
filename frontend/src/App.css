@@ -189,3 +189,80 @@ nav[aria-label="Menu principal"] {
   gap: 24px;
   align-items: center;
 }
+
+.area-requisicoes {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 56rem;
+  margin: 2rem auto;
+  padding: clamp(1rem, 3vw, 2rem);
+  color: #172b38;
+  background: #ffffff;
+  border: 1px solid #ccd8dc;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.area-requisicoes h2,
+.area-requisicoes h3,
+.area-requisicoes h4 {
+  color: #164e53;
+  line-height: 1.3;
+}
+
+.area-requisicoes label {
+  display: block;
+  margin: 1rem 0 0.35rem;
+  font-weight: 600;
+}
+
+.area-requisicoes select,
+.area-requisicoes input {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 28rem;
+  padding: 0.6rem;
+  font: inherit;
+  color: #172b38;
+  background: #ffffff;
+  border: 1px solid #73898f;
+  border-radius: 6px;
+}
+
+.area-requisicoes input[type="number"] {
+  display: block;
+  max-width: 8rem;
+}
+
+.area-requisicoes button {
+  margin: 0.5rem 0.35rem 0.5rem 0;
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  color: #ffffff;
+  background: #176168;
+  border: 1px solid #176168;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.area-requisicoes button:hover:not(:disabled) {
+  background: #10494f;
+}
+
+.area-requisicoes button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.area-requisicoes :is(button, input, select):focus-visible {
+  outline: 3px solid #2166aa;
+  outline-offset: 3px;
+}
+
+.area-requisicoes ul {
+  padding-left: 1.4rem;
+}
+
+.area-requisicoes li {
+  margin: 0.65rem 0;
+}

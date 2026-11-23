@@ -117,6 +117,18 @@ app.MapDelete("/materiais/{id:int}", async (int id, AppDbContext db) =>
     return Results.NoContent();
 });
 
+app.MapGet("/colaboradores", async (AppDbContext db) =>
+{
+    var colaboradores = await db.Usuarios
+        .AsNoTracking()
+        .Where(u => u.Perfil == PerfilUsuario.Colaborador && u.Setor.Ativo)
+        .OrderBy(u => u.Nome)
+        .Select(u => new { u.Id, u.Nome })
+        .ToListAsync();
+
+    return Results.Ok(colaboradores);
+});
+
 app.MapPost("/usuarios", async (CadastroUsuarioDto dados, AppDbContext db) =>
 {
     if (string.IsNullOrWhiteSpace(dados.Nome) ||

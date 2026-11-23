@@ -34,3 +34,19 @@ Em um terminal dentro da pasta frontend, execute:
 npm.cmd run build
 npm.cmd run lint
 ```
+
+## Uso de IA no CSS
+
+- **Trecho da solicitação original:** “Gerar o CSS com auxílio de IA e registrar ferramenta, prompt e ajustes.”
+- **Aplicação:** o CSS foi adicionado ao `src/App.css`. A classe `area-requisicoes` foi aplicada à seção de Requisições em `src/App.jsx` para limitar o estilo ao módulo.
+- **Ajustes:** o campo de quantidade recebeu uma largura menor que os seletores. Os campos e botões receberam um contorno visível para navegação pelo teclado.
+
+## Testes do módulo de requisições
+
+| Teste | Resultado observado |
+| --- | --- |
+| Criar uma requisição | O pedido de 2 pacotes de gaze foi salvo com status `Pendente`. |
+| Listar requisições | Um novo pedido apareceu na lista após o envio, sem atualizar a página. |
+| Consultar detalhes | A tela mostrou o material, a quantidade solicitada e a quantidade atendida. |
+| Atender parcialmente | Ao confirmar 1 dos 2 pacotes solicitados, o status mudou para `AtendidaParcialmente` e a quantidade atendida passou para 1. |
+| Verificar o frontend | `npm.cmd run lint` terminou sem avisos ou erros e `npm.cmd run build` concluiu com sucesso. 
