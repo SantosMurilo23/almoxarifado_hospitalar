@@ -12,7 +12,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendLocal", policy =>
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
 var app = builder.Build();
+app.UseCors("FrontendLocal");
 
 using (var escopo = app.Services.CreateScope())
 {
