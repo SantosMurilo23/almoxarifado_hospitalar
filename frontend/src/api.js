@@ -1,36 +1,63 @@
 const apiUrl = import.meta.env.VITE_API_URL
 
-export async function consultarApi(caminho) {
-  const resposta = await fetch(`${apiUrl}${caminho}`)
+// Centraliza as chamadas e apresenta as mensagens retornadas pela API.
+async function executarRequisicao(caminho, metodo = 'GET', dados) {
+  const opcoes = { method: metodo }
 
-  if (!resposta.ok) {
-    throw new Error(`Erro ao consultar ${caminho}: HTTP ${resposta.status}`)
+  if (dados !== undefined) {
+    opcoes.headers = { 'Content-Type': 'application/json' }
+    opcoes.body = JSON.stringify(dados)
   }
 
-  return resposta.json()
+  const resposta = await fetch(`${apiUrl}${caminho}`, opcoes)
+  const texto = await resposta.text()
+
+  let conteudo = texto
+
+  if (texto) {
+    try {
+      conteudo = JSON.parse(texto)
+    } catch {
+      // Algumas respostas podem conter texto em vez de JSON.
+    }
+  }
+
+  if (!resposta.ok) {
+    const mensagem =
+      typeof conteudo === 'string'
+        ? conteudo
+        : conteudo?.detail || conteudo?.title
+
+    throw new Error(mensagem || `Erro na operação: HTTP ${resposta.status}`)
+  }
+
+  return texto ? conteudo : null
 }
 
-async function enviarDados(caminho, dados) {
-  const resposta = await fetch(`${apiUrl}${caminho}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(dados),
-  })
-
-  if (!resposta.ok) {
-    const mensagem = await resposta.text()
-    throw new Error(mensagem || `Erro ao enviar dados: HTTP ${resposta.status}`)
-  }
-
-  return resposta.json()
+export function consultarApi(caminho) {
+  return executarRequisicao(caminho)
 }
 
 export function criarRequisicao(dados) {
-  return enviarDados('/requisicoes', dados)
+  return executarRequisicao('/requisicoes', 'POST', dados)
 }
 
 export function atenderRequisicao(id, itens) {
-  return enviarDados(`/requisicoes/${id}/atender`, { itens })
+  return executarRequisicao(`/requisicoes/${id}/atender`, 'POST', { itens })
+}
+
+export function cadastrarMaterial(dados) {
+  return executarRequisicao('/materiais', 'POST', dados)
+}
+
+export function atualizarMaterial(id, dados) {
+  return executarRequisicao(`/materiais/${id}`, 'PUT', dados)
+}
+
+export function excluirMaterial(id) {
+  return executarRequisicao(`/materiais/${id}`, 'DELETE')
+}
+
+export function cadastrarColaborador(dados) {
+  return executarRequisicao('/usuarios', 'POST', dados)
 }

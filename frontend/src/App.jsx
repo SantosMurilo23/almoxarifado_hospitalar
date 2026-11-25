@@ -5,6 +5,7 @@ import viteLogo from './assets/vite.svg'
 import './App.css'
 import NovaRequisicao from './NovaRequisicao.jsx'
 import ListaRequisicoes from './ListaRequisicoes.jsx'
+import Materiais from './Materiais.jsx' 
 
 function App() {
   const [count, setCount] = useState(0)
@@ -39,7 +40,7 @@ function App() {
             <a href="#colaboradores">Colaboradores</a>
             <a href="#requisicoes">Requisições</a>
           </nav>
-          {secao === '#materiais' && <h2>Materiais</h2>}
+          {secao === '#materiais' && <Materiais />}
           {secao === '#colaboradores' && <h2>Colaboradores</h2>}
           {secao === '#requisicoes' && (
             <section className="area-requisicoes">
