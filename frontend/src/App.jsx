@@ -1,153 +1,87 @@
 import { useEffect, useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
+import Materiais from './Materiais.jsx'
+import Colaboradores from './Colaboradores.jsx'
 import NovaRequisicao from './NovaRequisicao.jsx'
 import ListaRequisicoes from './ListaRequisicoes.jsx'
 
-function App() {
-  const [count, setCount] = useState(0)
-  const [secao, setSecao] = useState(() => window.location.hash || '#materiais')
-    const [versaoLista, setVersaoLista] = useState(0)
+const secoes = ['#materiais', '#colaboradores', '#requisicoes']
+
+function obterSecao() {
+  const hash = window.location.hash
+  return secoes.includes(hash) ? hash : '#materiais'
+}
+
+export default function App() {
+  const [secao, setSecao] = useState(obterSecao)
+  const [versaoLista, setVersaoLista] = useState(0)
+
+  useEffect(() => {
+    function atualizarSecao() {
+      setSecao(obterSecao())
+    }
+
+    window.addEventListener('hashchange', atualizarSecao)
+
+    return () => {
+      window.removeEventListener('hashchange', atualizarSecao)
+    }
+  }, [])
 
   function atualizarLista() {
     setVersaoLista((versao) => versao + 1)
   }
 
-  useEffect(() => {
-    function atualizarSecao() {
-      setSecao(window.location.hash || '#materiais')
-    }
-
-    window.addEventListener('hashchange', atualizarSecao)
-    return () => window.removeEventListener('hashchange', atualizarSecao)
-  }, [])
-
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
+      <header className="cabecalho">
+        <div className="cabecalho-conteudo">
+          <span className="identificacao">Gestão de materiais de consumo</span>
           <h1>Almoxarifado Hospitalar</h1>
-          <nav aria-label="Menu principal">
-            <a href="#materiais">Materiais</a>
-            <a href="#colaboradores">Colaboradores</a>
-            <a href="#requisicoes">Requisições</a>
-          </nav>
-          {secao === '#materiais' && <h2>Materiais</h2>}
-          {secao === '#colaboradores' && <h2>Colaboradores</h2>}
+          <p>Organize materiais, colaboradores e requisições por setor.</p>
+        </div>
+      </header>
+
+      <div className="estrutura">
+        <nav aria-label="Menu principal" className="menu-principal">
+          <a
+            href="#materiais"
+            aria-current={secao === '#materiais' ? 'page' : undefined}
+          >
+            Materiais
+          </a>
+          <a
+            href="#colaboradores"
+            aria-current={secao === '#colaboradores' ? 'page' : undefined}
+          >
+            Colaboradores
+          </a>
+          <a
+            href="#requisicoes"
+            aria-current={secao === '#requisicoes' ? 'page' : undefined}
+          >
+            Requisições
+          </a>
+        </nav>
+
+        <main id="conteudo">
+          {secao === '#materiais' && <Materiais />}
+          {secao === '#colaboradores' && <Colaboradores />}
+
           {secao === '#requisicoes' && (
             <section className="area-requisicoes">
               <h2>Requisições</h2>
+              <p>Registre pedidos e acompanhe o atendimento dos materiais.</p>
               <NovaRequisicao aoCriar={atualizarLista} />
               <ListaRequisicoes versaoLista={versaoLista} />
             </section>
           )}
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+        </main>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        <footer className="rodape">
+          Projeto acadêmico · Ciência da Computação
+        </footer>
+      </div>
     </>
   )
 }
-
-export default App
