@@ -6,6 +6,7 @@ import './App.css'
 import NovaRequisicao from './NovaRequisicao.jsx'
 import ListaRequisicoes from './ListaRequisicoes.jsx'
 import Materiais from './Materiais.jsx' 
+import Colaboradores from './Colaboradores.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -41,7 +42,7 @@ function App() {
             <a href="#requisicoes">Requisições</a>
           </nav>
           {secao === '#materiais' && <Materiais />}
-          {secao === '#colaboradores' && <h2>Colaboradores</h2>}
+          {secao === '#colaboradores' && <Colaboradores />}
           {secao === '#requisicoes' && (
             <section className="area-requisicoes">
               <h2>Requisições</h2>
